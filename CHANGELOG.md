@@ -6,6 +6,13 @@ Versions use [Semantic Versioning](https://semver.org/). Small UI, preset, and
 bug-fix changes are released as patch versions (`0.1.x`); larger feature sets
 get a minor bump. The version shown in the app header is the released version.
 
+## [0.1.3] - 2026-11-21
+
+### Added
+
+- Paste clipboard image button next to Attach image (and for backfill images)
+  when the browser supports reading images from the clipboard.
+
 ## [0.1.2] - 2026-11-21
 
 ### Added

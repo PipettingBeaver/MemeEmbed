@@ -15,6 +15,8 @@
     slot: Slot | null
     index: number
     onAttach: (slotId: string, target: 'slot' | 'backfill') => void
+    onPasteClipboard: (slotId: string, target: 'slot' | 'backfill') => void
+    canPasteClipboard: boolean
     onClearImage: (slotId: string, target: 'slot' | 'backfill') => void
     onDelete: (slotId: string) => void
     onResetEffects: (slotId: string) => void
@@ -33,6 +35,8 @@
     slot,
     index,
     onAttach,
+    onPasteClipboard,
+    canPasteClipboard,
     onClearImage,
     onDelete,
     onResetEffects,
@@ -192,11 +196,17 @@
         <button class="primary" onclick={() => onAttach(slot.id, 'slot')}>
           {slot.imageFile ? 'Replace image' : 'Attach image'}
         </button>
+        {#if canPasteClipboard}
+          <button onclick={() => onPasteClipboard(slot.id, 'slot')}>Paste clipboard</button>
+        {/if}
         {#if slot.imageFile}
           <button onclick={() => onClearImage(slot.id, 'slot')}>Remove</button>
         {/if}
       </div>
-      <p class="hint">Tip: you can also double-click the slot on the canvas, or drop an image file onto it.</p>
+      <p class="hint">
+        Tip: you can also double-click the slot on the canvas, or drop an image file onto it.
+        Paste clipboard uses an image currently copied to your system clipboard.
+      </p>
     </div>
 
     <div class="divider"></div>
@@ -380,6 +390,9 @@
         <button onclick={() => onAttach(slot.id, 'backfill')}>
           {slot.backfill.imageFile ? 'Replace backfill image' : 'Choose backfill image'}
         </button>
+        {#if canPasteClipboard}
+          <button onclick={() => onPasteClipboard(slot.id, 'backfill')}>Paste clipboard</button>
+        {/if}
         {#if slot.backfill.imageFile}
           <button onclick={() => onClearImage(slot.id, 'backfill')}>Remove</button>
         {/if}

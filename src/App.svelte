@@ -31,7 +31,13 @@
     loadImage,
     slugify,
   } from './lib/images'
-  import { downloadBlob, downloadText, fileToDataUrl, pickFile } from './lib/files'
+  import {
+    blobToDataUrl,
+    downloadBlob,
+    downloadText,
+    fileToDataUrl,
+    pickFile,
+  } from './lib/files'
   import { History } from './lib/history'
   import { logs, logError, type LogLevel } from './lib/log.svelte'
   import { webStore } from './lib/webStore'
@@ -87,6 +93,11 @@
       return fallback
     }
   }
+
+  const canPasteClipboard =
+    typeof navigator !== 'undefined' &&
+    Boolean(navigator.clipboard) &&
+    typeof navigator.clipboard.read === 'function'
 
   let guides = $state<GuideSettings>(loadGuides())
 
@@ -518,6 +529,28 @@
     log('success', `Attached ${originalName} to "${slot.name}"`, `${image.naturalWidth}×${image.naturalHeight}`)
   }
 
+  async function applyBackfillImage(
+    slotId: string,
+    dataUrl: string,
+    originalName: string,
+  ): Promise<void> {
+    if (!current) return
+    const slot = current.slots.find((candidate) => candidate.id === slotId)
+    if (!slot) return
+    const image = await loadImage(dataUrl)
+    recordHistory(`slot:${slotId}:backfill-image`)
+    const name = assetNameForSlot(`${slotId}-backfill`, dataUrl)
+    const previous = slot.backfill.imageFile
+    slot.backfill.mode = 'image'
+    slot.backfill.imageFile = name
+    const nextAssets = { ...assets, [name]: dataUrl }
+    if (previous && previous !== name) delete nextAssets[previous]
+    assets = nextAssets
+    backfillImages = { ...backfillImages, [slotId]: image }
+    dirty = true
+    log('success', `Attached backfill ${originalName} to "${slot.name}"`)
+  }
+
   async function attachImage(slotId: string, target: 'slot' | 'backfill'): Promise<void> {
     if (!current) return
     const slot = current.slots.find((candidate) => candidate.id === slotId)
@@ -527,23 +560,46 @@
     try {
       const dataUrl = await fileToDataUrl(file)
       if (target === 'backfill') {
-        const image = await loadImage(dataUrl)
-        recordHistory(`slot:${slotId}:backfill-image`)
-        const name = assetNameForSlot(`${slotId}-backfill`, dataUrl)
-        const previous = slot.backfill.imageFile
-        slot.backfill.mode = 'image'
-        slot.backfill.imageFile = name
-        const nextAssets = { ...assets, [name]: dataUrl }
-        if (previous && previous !== name) delete nextAssets[previous]
-        assets = nextAssets
-        backfillImages = { ...backfillImages, [slotId]: image }
-        dirty = true
-        log('success', `Attached backfill ${file.name} to "${slot.name}"`)
+        await applyBackfillImage(slotId, dataUrl, file.name)
       } else {
         await applySlotImage(slotId, dataUrl, file.name)
       }
     } catch (error) {
       logError(error, 'Could not attach that image')
+    }
+  }
+
+  async function pasteImage(slotId: string, target: 'slot' | 'backfill'): Promise<void> {
+    if (!current) return
+    const slot = current.slots.find((candidate) => candidate.id === slotId)
+    if (!slot) return
+    if (!navigator.clipboard || typeof navigator.clipboard.read !== 'function') {
+      log(
+        'warn',
+        'This browser cannot read images from the clipboard.',
+        'Use Attach image or drag and drop instead.',
+      )
+      return
+    }
+    try {
+      const items = await navigator.clipboard.read()
+      for (const item of items) {
+        const type = item.types.find((candidate) => candidate.startsWith('image/'))
+        if (!type) continue
+        const blob = await item.getType(type)
+        const dataUrl = await blobToDataUrl(blob)
+        const extension = type.split('/')[1] || 'png'
+        const name = `clipboard.${extension}`
+        if (target === 'backfill') {
+          await applyBackfillImage(slotId, dataUrl, name)
+        } else {
+          await applySlotImage(slotId, dataUrl, name)
+        }
+        return
+      }
+      log('warn', 'The clipboard does not contain an image.')
+    } catch (error) {
+      logError(error, 'Could not read an image from the clipboard')
     }
   }
 
@@ -1135,6 +1191,8 @@
           slot={selectedSlot}
           index={selectedIndex}
           onAttach={attachImage}
+          onPasteClipboard={pasteImage}
+          canPasteClipboard={canPasteClipboard}
           onClearImage={clearImage}
           onDelete={deleteSlot}
           onResetEffects={resetEffects}
