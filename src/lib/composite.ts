@@ -6,6 +6,7 @@ import {
   isAxisAlignedQuad,
   pointsBBox,
   polygonCentroid,
+  rectCorners,
   roundedRectOutlinePoints,
 } from './geometry'
 import { buildAutoAlpha } from './mask'
@@ -644,6 +645,44 @@ function bevelGuidePoints(slot: Slot): Point[] | null {
   }))
 }
 
+function drawCornerLabels(
+  ctx: CanvasRenderingContext2D,
+  points: Point[],
+  unit: number,
+): void {
+  if (points.length < 4) return
+  const center = polygonCentroid(points.slice(0, 4))
+  const fontSize = Math.max(9, Math.round(unit * 9))
+  const padX = unit * 2.5
+  const padY = unit * 1.4
+  const offset = unit * 16
+
+  ctx.save()
+  ctx.font = `700 ${fontSize}px system-ui, sans-serif`
+  ctx.textAlign = 'center'
+  ctx.textBaseline = 'middle'
+  for (let index = 0; index < 4; index += 1) {
+    const point = points[index]
+    const dx = point.x - center.x
+    const dy = point.y - center.y
+    const distance = Math.max(1, Math.hypot(dx, dy))
+    const labelX = point.x + (dx / distance) * offset
+    const labelY = point.y + (dy / distance) * offset
+    const label = `P${index + 1}`
+    const width = ctx.measureText(label).width
+    ctx.fillStyle = 'rgba(6, 12, 18, 0.88)'
+    ctx.fillRect(
+      labelX - width / 2 - padX,
+      labelY - fontSize / 2 - padY,
+      width + padX * 2,
+      fontSize + padY * 2,
+    )
+    ctx.fillStyle = '#cfe8ff'
+    ctx.fillText(label, labelX, labelY)
+  }
+  ctx.restore()
+}
+
 function drawQuadHandles(
   ctx: CanvasRenderingContext2D,
   points: Point[],
@@ -660,6 +699,7 @@ function drawQuadHandles(
     ctx.fill()
     ctx.stroke()
   }
+  drawCornerLabels(ctx, points, unit)
 }
 
 function strokeDashedPolyline(
@@ -826,6 +866,7 @@ function drawHandles(
     ctx.fill()
     ctx.stroke()
   }
+  drawCornerLabels(ctx, rectCorners(rect), unit)
 }
 
 function drawOverlays(

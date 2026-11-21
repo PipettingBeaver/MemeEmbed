@@ -1,5 +1,6 @@
 <script lang="ts">
   import { defaultTransform } from '../lib/defaults'
+  import StepField from './StepField.svelte'
   import type {
     BackfillSettings,
     BlendSettings,
@@ -119,19 +120,17 @@
         {#each slot.points as point, cornerIndex}
           <div class="corner-row">
             <span class="corner-label">P{cornerIndex + 1}</span>
-            <input
-              type="number"
+            <StepField
               value={Math.round(point.x)}
-              aria-label={`Point ${cornerIndex + 1} X`}
-              oninput={(event) =>
-                onPatchPoint(slot.id, cornerIndex, { x: num(event), y: point.y })}
+              axis="x"
+              ariaLabel={`Point ${cornerIndex + 1} X`}
+              onchange={(value) => onPatchPoint(slot.id, cornerIndex, { x: value, y: point.y })}
             />
-            <input
-              type="number"
+            <StepField
               value={Math.round(point.y)}
-              aria-label={`Point ${cornerIndex + 1} Y`}
-              oninput={(event) =>
-                onPatchPoint(slot.id, cornerIndex, { x: point.x, y: num(event) })}
+              axis="y"
+              ariaLabel={`Point ${cornerIndex + 1} Y`}
+              onchange={(value) => onPatchPoint(slot.id, cornerIndex, { x: point.x, y: value })}
             />
           </div>
         {/each}
@@ -141,22 +140,42 @@
         The bevel is applied in local space and warped with the quad.
       </p>
     {:else}
-      <div class="grid four">
+      <div class="grid two">
         <label>
           <span>X</span>
-          <input type="number" value={slot.rect.x} oninput={(event) => onPatchRect(slot.id, { x: num(event) })} />
+          <StepField
+            value={slot.rect.x}
+            axis="x"
+            ariaLabel="Slot X"
+            onchange={(value) => onPatchRect(slot.id, { x: value })}
+          />
         </label>
         <label>
           <span>Y</span>
-          <input type="number" value={slot.rect.y} oninput={(event) => onPatchRect(slot.id, { y: num(event) })} />
+          <StepField
+            value={slot.rect.y}
+            axis="y"
+            ariaLabel="Slot Y"
+            onchange={(value) => onPatchRect(slot.id, { y: value })}
+          />
         </label>
         <label>
           <span>W</span>
-          <input type="number" value={slot.rect.w} oninput={(event) => onPatchRect(slot.id, { w: num(event) })} />
+          <StepField
+            value={slot.rect.w}
+            axis="x"
+            ariaLabel="Slot width"
+            onchange={(value) => onPatchRect(slot.id, { w: value })}
+          />
         </label>
         <label>
           <span>H</span>
-          <input type="number" value={slot.rect.h} oninput={(event) => onPatchRect(slot.id, { h: num(event) })} />
+          <StepField
+            value={slot.rect.h}
+            axis="y"
+            ariaLabel="Slot height"
+            onchange={(value) => onPatchRect(slot.id, { h: value })}
+          />
         </label>
       </div>
       <p class="hint">
@@ -205,18 +224,20 @@
     <div class="grid two">
       <label>
         <span>Offset X <small>px</small></span>
-        <input
-          type="number"
+        <StepField
           value={Math.round(slot.transform?.offsetX ?? 0)}
-          oninput={(event) => setTransform({ offsetX: num(event) })}
+          axis="x"
+          ariaLabel="Image offset X"
+          onchange={(value) => setTransform({ offsetX: value })}
         />
       </label>
       <label>
         <span>Offset Y <small>px</small></span>
-        <input
-          type="number"
+        <StepField
           value={Math.round(slot.transform?.offsetY ?? 0)}
-          oninput={(event) => setTransform({ offsetY: num(event) })}
+          axis="y"
+          ariaLabel="Image offset Y"
+          onchange={(value) => setTransform({ offsetY: value })}
         />
       </label>
     </div>
@@ -607,10 +628,6 @@
     grid-template-columns: 1fr 1fr;
   }
 
-  .grid.four {
-    grid-template-columns: repeat(4, 1fr);
-  }
-
   .corner-grid {
     display: flex;
     flex-direction: column;
@@ -645,7 +662,6 @@
   }
 
   input[type='text'],
-  input[type='number'],
   select {
     width: 100%;
     box-sizing: border-box;
