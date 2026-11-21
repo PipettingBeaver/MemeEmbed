@@ -1,0 +1,94 @@
+{
+  "schemaVersion": 1,
+  "id": "anime-girl-at-computer-screen",
+  "name": "Anime Girl at Computer Monitor",
+  "description": "A blue-haired anime girl sitting at a desk, looking at a computer monitor. Drop an image onto the white screen.",
+  "sourceUrl": "https://i.pinimg.com/564x/e5/66/56/e56656a35f232f71a76d7989bc960b20.jpg",
+  "width": 500,
+  "height": 500,
+  "baseImageFile": "base.png",
+  "slots": [
+    {
+      "id": "screen",
+      "name": "Monitor screen",
+      "shape": "quad",
+      "rect": {
+        "x": 32,
+        "y": 64,
+        "w": 201,
+        "h": 158
+      },
+      "points": [
+        {
+          "x": 31,
+          "y": 64
+        },
+        {
+          "x": 234,
+          "y": 66
+        },
+        {
+          "x": 233,
+          "y": 212
+        },
+        {
+          "x": 32,
+          "y": 222
+        }
+      ],
+      "fit": "cover",
+      "imageFile": null,
+      "mask": {
+        "mode": "rect",
+        "cornerRadius": 0,
+        "inset": 0,
+        "autoSource": "auto",
+        "tolerance": 36
+      },
+      "backfill": {
+        "mode": "none",
+        "color": "#000000",
+        "imageFile": null
+      },
+      "blend": {
+        "trimEdges": true,
+        "trimThreshold": 24,
+        "trimColor": "auto",
+        "feather": 2,
+        "tint": false,
+        "tintStrength": 0,
+        "downscale": 0,
+        "blur": 0,
+        "brightness": 100,
+        "saturation": 100,
+        "opacity": 100
+      }
+    }
+  ],
+  "text": {
+    "top": {
+      "enabled": false,
+      "text": "",
+      "fontFamily": "Impact, 'Arial Black', sans-serif",
+      "fontSize": 64,
+      "color": "#ffffff",
+      "strokeColor": "#000000",
+      "strokeWidth": 6,
+      "uppercase": true,
+      "lineSpacing": 1.05
+    },
+    "bottom": {
+      "enabled": false,
+      "text": "",
+      "fontFamily": "Impact, 'Arial Black', sans-serif",
+      "fontSize": 64,
+      "color": "#ffffff",
+      "strokeColor": "#000000",
+      "strokeWidth": 6,
+      "uppercase": true,
+      "lineSpacing": 1.05
+    }
+  },
+  "createdAt": "2026-11-20T10:25:00-08:00",
+  "updatedAt": "2026-11-20T10:25:00-08:00"
+}

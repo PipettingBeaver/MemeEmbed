@@ -1,0 +1,93 @@
+{
+  "schemaVersion": 1,
+  "id": "coraline-dad-looking-at-screen",
+  "name": "Coraline Dad Looking at Screen",
+  "description": "The Other Father staring at a CRT screen. Drop an image onto the screen slot to replace what he is looking at.",
+  "width": 1080,
+  "height": 1217,
+  "baseImageFile": "base.png",
+  "slots": [
+    {
+      "id": "screen",
+      "name": "CRT Screen",
+      "shape": "quad",
+      "rect": {
+        "x": 175,
+        "y": 788,
+        "w": 409,
+        "h": 356
+      },
+      "fit": "cover",
+      "imageFile": null,
+      "mask": {
+        "mode": "rounded",
+        "cornerRadius": 38,
+        "inset": 1,
+        "autoSource": "auto",
+        "tolerance": 36
+      },
+      "backfill": {
+        "mode": "none",
+        "color": "#000000",
+        "imageFile": null
+      },
+      "blend": {
+        "trimEdges": true,
+        "trimThreshold": 24,
+        "trimColor": "auto",
+        "feather": 6,
+        "tint": true,
+        "tintStrength": 20,
+        "downscale": 0,
+        "blur": 0,
+        "brightness": 100,
+        "saturation": 100,
+        "opacity": 100
+      },
+      "points": [
+        {
+          "x": 175,
+          "y": 795
+        },
+        {
+          "x": 572,
+          "y": 788
+        },
+        {
+          "x": 584,
+          "y": 1122
+        },
+        {
+          "x": 195,
+          "y": 1144
+        }
+      ]
+    }
+  ],
+  "text": {
+    "top": {
+      "enabled": false,
+      "text": "",
+      "fontFamily": "Impact, 'Arial Black', sans-serif",
+      "fontSize": 64,
+      "color": "#ffffff",
+      "strokeColor": "#000000",
+      "strokeWidth": 6,
+      "uppercase": true,
+      "lineSpacing": 1.05
+    },
+    "bottom": {
+      "enabled": false,
+      "text": "",
+      "fontFamily": "Impact, 'Arial Black', sans-serif",
+      "fontSize": 64,
+      "color": "#ffffff",
+      "strokeColor": "#000000",
+      "strokeWidth": 6,
+      "uppercase": true,
+      "lineSpacing": 1.05
+    }
+  },
+  "createdAt": "2026-11-04T00:00:00.000Z",
+  "updatedAt": "2026-11-04T00:00:00.000Z"
+}

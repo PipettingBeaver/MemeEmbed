@@ -1,0 +1,94 @@
+{
+  "schemaVersion": 1,
+  "id": "old-man-looking-at-screen",
+  "name": "Old Man Looking at Big TV Screen",
+  "description": "An older man looking up at a large TV with a green screen. Drop an image onto the green screen.",
+  "sourceUrl": "https://www.reddit.com/r/MemeTemplatesOfficial/comments/cbc3vs/old_man_looking_at_big_tv_screen_request_made_by/",
+  "width": 1080,
+  "height": 1420,
+  "baseImageFile": "base.png",
+  "slots": [
+    {
+      "id": "screen",
+      "name": "Green screen",
+      "shape": "quad",
+      "rect": {
+        "x": 478,
+        "y": 224,
+        "w": 457,
+        "h": 497
+      },
+      "points": [
+        {
+          "x": 478,
+          "y": 291
+        },
+        {
+          "x": 935,
+          "y": 224
+        },
+        {
+          "x": 916,
+          "y": 721
+        },
+        {
+          "x": 498,
+          "y": 612
+        }
+      ],
+      "fit": "cover",
+      "imageFile": null,
+      "mask": {
+        "mode": "rect",
+        "cornerRadius": 0,
+        "inset": 0,
+        "autoSource": "auto",
+        "tolerance": 36
+      },
+      "backfill": {
+        "mode": "none",
+        "color": "#000000",
+        "imageFile": null
+      },
+      "blend": {
+        "trimEdges": true,
+        "trimThreshold": 24,
+        "trimColor": "auto",
+        "feather": 2,
+        "tint": false,
+        "tintStrength": 0,
+        "downscale": 0,
+        "blur": 0,
+        "brightness": 100,
+        "saturation": 100,
+        "opacity": 100
+      }
+    }
+  ],
+  "text": {
+    "top": {
+      "enabled": false,
+      "text": "",
+      "fontFamily": "Impact, 'Arial Black', sans-serif",
+      "fontSize": 64,
+      "color": "#ffffff",
+      "strokeColor": "#000000",
+      "strokeWidth": 6,
+      "uppercase": true,
+      "lineSpacing": 1.05
+    },
+    "bottom": {
+      "enabled": false,
+      "text": "",
+      "fontFamily": "Impact, 'Arial Black', sans-serif",
+      "fontSize": 64,
+      "color": "#ffffff",
+      "strokeColor": "#000000",
+      "strokeWidth": 6,
+      "uppercase": true,
+      "lineSpacing": 1.05
+    }
+  },
+  "createdAt": "2026-11-12T04:20:00-08:00",
+  "updatedAt": "2026-11-12T04:20:00-08:00"
+}

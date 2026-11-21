@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" role="img" aria-label="MemeEmbed: a blue image inside a white TV screen next to a person">
+  <defs>
+    <linearGradient id="bg" x1="20" y1="12" x2="238" y2="244" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1d2c3c"/>
+      <stop offset="1" stop-color="#080d12"/>
+    </linearGradient>
+    <linearGradient id="screen" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#e5ecf4"/>
+    </linearGradient>
+    <linearGradient id="embed" x1="42" y1="76" x2="142" y2="148" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#68d0ff"/>
+      <stop offset="1" stop-color="#1f6f9c"/>
+    </linearGradient>
+    <filter id="glow" x="-35%" y="-35%" width="170%" height="170%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect x="6" y="6" width="244" height="244" rx="52" fill="url(#bg)" stroke="#2c3f52" stroke-width="4"/>
+
+  <g fill="#c9d6e4">
+    <circle cx="207" cy="95" r="20"/>
+    <path d="M168 192c0-37 16-59 39-59s39 22 39 59z"/>
+  </g>
+
+  <g filter="url(#glow)">
+    <rect x="24" y="58" width="136" height="108" rx="18" fill="url(#screen)" stroke="#c3cedb" stroke-width="4"/>
+    <rect x="42" y="76" width="100" height="72" rx="10" fill="url(#embed)"/>
+    <circle cx="60" cy="96" r="7" fill="#ecf9ff" opacity="0.95"/>
+    <path d="M48 140l24-28 14 17 13-12 23 23z" fill="#ecf9ff" opacity="0.9"/>
+    <path d="M50 84h15L50 105z" fill="#d9f4ff" opacity="0.4"/>
+  </g>
+
+  <g fill="#e8eef5">
+    <rect x="79" y="166" width="26" height="14"/>
+    <rect x="60" y="180" width="64" height="11" rx="5.5"/>
+  </g>
+</svg>
