@@ -6,6 +6,12 @@ Versions use [Semantic Versioning](https://semver.org/). Small UI, preset, and
 bug-fix changes are released as patch versions (`0.1.x`); larger feature sets
 get a minor bump. The version shown in the app header is the released version.
 
+## [0.1.2] - 2026-11-21
+
+### Added
+
+- Help dialog now shows the running version and links to this changelog.
+
 ## [0.1.1] - 2026-11-21
 
 ### Added

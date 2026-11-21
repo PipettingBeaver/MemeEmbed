@@ -112,6 +112,18 @@
         </section>
 
         <section>
+          <h3>Version and changelog</h3>
+          <p>
+            MemeEmbed <strong>v{__APP_VERSION__}</strong>. Recent changes are recorded in the
+            <a
+              href="https://github.com/PipettingBeaver/MemeEmbed/blob/main/CHANGELOG.md"
+              target="_blank"
+              rel="noreferrer">CHANGELOG</a
+            >.
+          </p>
+        </section>
+
+        <section>
           <h3>Credits and ownership</h3>
           <p>
             I don't own any of the bundled meme images. Rights remain with their original creators;
@@ -135,6 +147,10 @@
 {/if}
 
 <style>
+  a {
+    color: #8fd6ff;
+  }
+
   .overlay {
     position: fixed;
     inset: 0;
