@@ -13,7 +13,14 @@
     type Handle,
   } from '../lib/geometry'
   import type { LogLevel } from '../lib/log.svelte'
-  import type { MemeTemplate, Point, Rect, Slot, ToolMode } from '../lib/types'
+  import type {
+    GuideSettings,
+    MemeTemplate,
+    Point,
+    Rect,
+    Slot,
+    ToolMode,
+  } from '../lib/types'
 
   interface Props {
     template: MemeTemplate
@@ -22,6 +29,7 @@
     backfillImages: Record<string, HTMLImageElement>
     selectedSlotId: string | null
     mode: ToolMode
+    guides: GuideSettings
     onSelect: (id: string | null) => void
     onChangeRect: (id: string, rect: Rect) => void
     onChangeQuad: (id: string, points: Point[]) => void
@@ -40,6 +48,7 @@
     backfillImages,
     selectedSlotId,
     mode,
+    guides,
     onSelect,
     onChangeRect,
     onChangeQuad,
@@ -72,6 +81,7 @@
     const backfills = backfillImages
     const selected = selectedSlotId
     const points = creatingPoints
+    const currentGuides = guides
     if (!canvas || !currentTemplate) return
     const ctx = canvas.getContext('2d')
     if (!ctx) return
@@ -83,6 +93,7 @@
       showOverlays: true,
       selectedSlotId: selected,
       creatingPoints: points,
+      guides: currentGuides,
     })
   })
 

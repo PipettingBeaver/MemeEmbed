@@ -11,7 +11,15 @@ import {
 } from './geometry'
 import { buildAutoAlpha } from './mask'
 import { detectTrim, type PixelBuffer } from './trim'
-import type { BlendSettings, MemeTemplate, Point, Rect, Slot, TextLayer } from './types'
+import type {
+  BlendSettings,
+  GuideSettings,
+  MemeTemplate,
+  Point,
+  Rect,
+  Slot,
+  TextLayer,
+} from './types'
 import {
   applyHomography,
   drawWarpedCanvas,
@@ -35,6 +43,14 @@ export interface RenderOptions {
   showOverlays: boolean
   selectedSlotId?: string | null
   creatingPoints?: Point[]
+  guides?: GuideSettings
+}
+
+const DEFAULT_GUIDES: GuideSettings = {
+  outlines: false,
+  thirds: false,
+  center: false,
+  measurements: false,
 }
 
 export interface ProcessSlotArgs {
@@ -869,17 +885,86 @@ function drawHandles(
   drawCornerLabels(ctx, rectCorners(rect), unit)
 }
 
+function drawGuides(
+  ctx: CanvasRenderingContext2D,
+  template: MemeTemplate,
+  guides: GuideSettings,
+): void {
+  const width = Math.max(1, Math.round(template.width))
+  const height = Math.max(1, Math.round(template.height))
+  const unit = Math.max(1.5, width / 500)
+
+  if (guides.measurements) {
+    ctx.save()
+    ctx.lineWidth = Math.max(1, unit * 0.8)
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)'
+    ctx.font = `${Math.round(unit * 7)}px system-ui, sans-serif`
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.38)'
+    ctx.textBaseline = 'top'
+    ctx.textAlign = 'left'
+    ctx.beginPath()
+    for (let x = 100; x < width; x += 100) {
+      ctx.moveTo(x, 0)
+      ctx.lineTo(x, height)
+    }
+    for (let y = 100; y < height; y += 100) {
+      ctx.moveTo(0, y)
+      ctx.lineTo(width, y)
+    }
+    ctx.stroke()
+    for (let x = 200; x < width; x += 200) {
+      ctx.fillText(String(x), x + unit * 2, unit * 2)
+    }
+    for (let y = 200; y < height; y += 200) {
+      ctx.fillText(String(y), unit * 2, y + unit * 2)
+    }
+    ctx.restore()
+  }
+
+  if (guides.thirds) {
+    ctx.save()
+    ctx.setLineDash([unit * 6, unit * 5])
+    ctx.lineWidth = Math.max(1, unit * 1.2)
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.28)'
+    ctx.beginPath()
+    for (const ratio of [1 / 3, 2 / 3]) {
+      ctx.moveTo(width * ratio, 0)
+      ctx.lineTo(width * ratio, height)
+      ctx.moveTo(0, height * ratio)
+      ctx.lineTo(width, height * ratio)
+    }
+    ctx.stroke()
+    ctx.restore()
+  }
+
+  if (guides.center) {
+    ctx.save()
+    ctx.setLineDash([unit * 8, unit * 5])
+    ctx.lineWidth = Math.max(1, unit * 1.2)
+    ctx.strokeStyle = 'rgba(76, 194, 255, 0.45)'
+    ctx.beginPath()
+    ctx.moveTo(width / 2, 0)
+    ctx.lineTo(width / 2, height)
+    ctx.moveTo(0, height / 2)
+    ctx.lineTo(width, height / 2)
+    ctx.stroke()
+    ctx.restore()
+  }
+}
+
 function drawOverlays(
   ctx: CanvasRenderingContext2D,
   template: MemeTemplate,
   selectedSlotId: string | null,
   creatingPoints: Point[],
+  guides: GuideSettings,
 ): void {
   const unit = Math.max(1.5, template.width / 500)
 
   for (const slot of template.slots) {
     const bbox = slot.rect
     const selected = slot.id === selectedSlotId
+    if (!selected && !guides.outlines) continue
     ctx.save()
     ctx.lineWidth = unit * 1.5
     ctx.strokeStyle = selected ? '#4cc2ff' : 'rgba(255,255,255,0.55)'
@@ -888,7 +973,9 @@ function drawOverlays(
     ctx.stroke()
     ctx.setLineDash([])
 
-    const label = slot.name
+    const label = guides.measurements
+      ? `${slot.name} · ${Math.round(slot.rect.w)}×${Math.round(slot.rect.h)}`
+      : slot.name
     const badgeFont = Math.round(unit * 8)
     ctx.font = `600 ${badgeFont}px system-ui, sans-serif`
     const textWidth = ctx.measureText(label).width
@@ -954,6 +1041,7 @@ export function renderMeme(
   options: RenderOptions,
 ): void {
   const { template, baseImage } = options
+  const guides: GuideSettings = { ...DEFAULT_GUIDES, ...(options.guides ?? {}) }
   const width = Math.max(1, Math.round(template.width))
   const height = Math.max(1, Math.round(template.height))
 
@@ -994,7 +1082,10 @@ export function renderMeme(
       ctx.globalAlpha = clampNumber(slot.blend.opacity / 100, 0, 1)
       drawSlotTexture(ctx, processed, slot, options.showOverlays ? 10 : 24)
       ctx.globalAlpha = 1
-    } else if (options.showOverlays) {
+    } else if (
+      options.showOverlays &&
+      (slot.id === options.selectedSlotId || guides.outlines)
+    ) {
       drawEmptySlot(ctx, slot, maskInfo?.canvas ?? null)
     }
   }
@@ -1003,11 +1094,13 @@ export function renderMeme(
   drawTextLayer(ctx, template, template.text.bottom, 'bottom')
 
   if (options.showOverlays) {
+    drawGuides(ctx, template, guides)
     drawOverlays(
       ctx,
       template,
       options.selectedSlotId ?? null,
       options.creatingPoints ?? [],
+      guides,
     )
   }
 }

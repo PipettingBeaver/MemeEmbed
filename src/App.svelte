@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte'
+  import GuidePanel from './components/GuidePanel.svelte'
   import HelpDialog from './components/HelpDialog.svelte'
   import Inspector from './components/Inspector.svelte'
   import LogPanel from './components/LogPanel.svelte'
@@ -37,6 +38,7 @@
   import type {
     BackfillSettings,
     BlendSettings,
+    GuideSettings,
     MaskSettings,
     MemeTemplate,
     Point,
@@ -66,6 +68,36 @@
   let copyName = $state('')
   let toast = $state('')
   let startupError = $state('')
+
+  const GUIDE_KEY = 'memeembed.guides'
+
+  function loadGuides(): GuideSettings {
+    const fallback: GuideSettings = {
+      outlines: false,
+      thirds: false,
+      center: false,
+      measurements: false,
+    }
+    if (typeof localStorage === 'undefined') return fallback
+    try {
+      const raw = localStorage.getItem(GUIDE_KEY)
+      if (!raw) return fallback
+      return { ...fallback, ...(JSON.parse(raw) as Partial<GuideSettings>) }
+    } catch {
+      return fallback
+    }
+  }
+
+  let guides = $state<GuideSettings>(loadGuides())
+
+  function patchGuides(patch: Partial<GuideSettings>): void {
+    guides = { ...guides, ...patch }
+    try {
+      localStorage.setItem(GUIDE_KEY, JSON.stringify(guides))
+    } catch {
+      /* storage may be unavailable */
+    }
+  }
 
   interface ConfirmState {
     title: string
@@ -1068,6 +1100,7 @@
           {backfillImages}
           {selectedSlotId}
           {mode}
+          {guides}
           onSelect={(id) => (selectedSlotId = id)}
           onChangeRect={patchRect}
           onChangeQuad={patchQuad}
@@ -1089,6 +1122,8 @@
 
     <aside class="inspector">
       <div class="inspector-scroll">
+        <GuidePanel {guides} onPatch={patchGuides} />
+        <div class="section-divider"></div>
         <Inspector
           slot={selectedSlot}
           index={selectedIndex}

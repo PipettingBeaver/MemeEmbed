@@ -50,6 +50,13 @@ export interface BlendSettings {
   opacity: number
 }
 
+export interface GuideSettings {
+  outlines: boolean
+  thirds: boolean
+  center: boolean
+  measurements: boolean
+}
+
 export interface ImageTransform {
   zoom: number
   offsetX: number

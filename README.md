@@ -18,6 +18,9 @@ client-side — no server, no account, and no upload.
   independent of the fit mode.
 - **Outer glow**: an adjustable color/size/opacity glow drawn outside the slot
   silhouette (rect or quad).
+- Optional canvas guidelines: slot outlines, rule of thirds, center alignments,
+  and a labeled 100 px measurement grid. Unselected slots stay hidden unless
+  outlines are enabled.
 - Blend controls: trim white/black edges, edge feather, surrounding-color tint,
   downscale, blur, brightness, saturation, and opacity.
 - **Mask / bevel**: rectangle, rounded bevel with corner radius and bezel inset,
