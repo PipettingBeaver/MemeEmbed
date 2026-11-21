@@ -100,6 +100,8 @@ respective creators.
 
 ## Live site
 
+<https://pipettingbeaver.github.io/MemeEmbed/>
+
 Built from `main` and deployed to GitHub Pages by
 `.github/workflows/deploy.yml`.
 
