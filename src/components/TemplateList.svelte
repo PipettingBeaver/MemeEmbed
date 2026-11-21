@@ -80,7 +80,12 @@
 
   <div class="bottom">
     <button onclick={onRefresh} disabled={busy}>Refresh</button>
-    <button onclick={onRestorePresets} disabled={busy}>Restore presets</button>
+    <button
+      onclick={onRestorePresets}
+      disabled={busy}
+      title="Overwrite bundled presets with the latest version and reload the open one"
+      >Restore presets</button
+    >
     <button onclick={onImport} disabled={busy}>Import template</button>
     <button onclick={onExport} disabled={busy || !currentId}>Export template</button>
   </div>

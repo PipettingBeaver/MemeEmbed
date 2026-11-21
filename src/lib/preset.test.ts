@@ -130,8 +130,13 @@ describe('Anime Girl at Computer Monitor preset', () => {
     const slot = template.slots[0]
     expect(slot.id).toBe('screen')
     expect(slot.shape).toBe('quad')
-    expect(slot.rect).toEqual({ x: 32, y: 64, w: 201, h: 158 })
-    expect(slot.points).toHaveLength(4)
+    expect(slot.rect).toEqual({ x: 31, y: 63, w: 205, h: 162 })
+    expect(slot.points).toEqual([
+      { x: 31, y: 64 },
+      { x: 236, y: 63 },
+      { x: 235, y: 214 },
+      { x: 31, y: 225 },
+    ])
     for (const point of slot.points ?? []) {
       expect(point.x).toBeLessThan(template.width / 2)
       expect(point.y).toBeLessThan(template.height / 2)

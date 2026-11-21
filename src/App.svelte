@@ -894,9 +894,13 @@
     )
     if (!ok) return
     busy = true
+    const openId = current?.id ?? null
     try {
       const count = await webStore.restorePresets(true)
       await refreshTemplates()
+      if (openId && templates.some((template) => template.id === openId)) {
+        await openTemplate(openId, true)
+      }
       log('success', `Restored ${count} bundled preset(s)`)
       showToast('Presets restored')
     } catch (error) {
@@ -1012,7 +1016,10 @@
     <div class="brand">
       <span class="mark">ME</span>
       <div class="brand-text">
-        <strong>MemeEmbed</strong>
+        <strong>
+          MemeEmbed
+          <span class="version" title="Build version">v{__APP_VERSION__}</span>
+        </strong>
         <span>template-based image embedding</span>
       </div>
     </div>
@@ -1281,8 +1288,23 @@
   }
 
   .brand-text strong {
+    display: flex;
+    align-items: center;
+    gap: 6px;
     font-size: 14px;
     color: #eaf2fa;
+  }
+
+  .brand-text .version {
+    padding: 0 5px;
+    border: 1px solid #2a3847;
+    border-radius: 999px;
+    background: #111922;
+    color: #8fd6ff;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-transform: none;
   }
 
   .brand-text span {
