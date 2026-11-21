@@ -95,12 +95,12 @@ describe('Old Man Looking at Big TV Screen preset', () => {
     expect(template.slots).toHaveLength(1)
     const slot = template.slots[0]
     expect(slot.shape).toBe('quad')
-    expect(slot.rect).toEqual({ x: 474, y: 220, w: 465, h: 505 })
+    expect(slot.rect).toEqual({ x: 471, y: 217, w: 471, h: 511 })
     expect(slot.points).toEqual([
-      { x: 474, y: 289 },
-      { x: 939, y: 220 },
-      { x: 920, y: 725 },
-      { x: 494, y: 614 },
+      { x: 471, y: 287 },
+      { x: 942, y: 217 },
+      { x: 923, y: 728 },
+      { x: 491, y: 616 },
     ])
     expect(slot.mask.mode).toBe('rect')
     expect(slot.blend.tint).toBe(false)
