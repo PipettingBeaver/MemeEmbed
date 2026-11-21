@@ -24,18 +24,6 @@
 </script>
 
 <div class="stepper {axis}">
-  {#if axis === 'x'}
-    <button
-      type="button"
-      class="arrow"
-      aria-label={`${ariaLabel ?? 'Value'} decrease`}
-      title="Decrease"
-      onclick={() => commit(value - step)}
-    >
-      ◀
-    </button>
-  {/if}
-
   <input
     type="number"
     {value}
@@ -45,15 +33,26 @@
   />
 
   {#if axis === 'x'}
-    <button
-      type="button"
-      class="arrow"
-      aria-label={`${ariaLabel ?? 'Value'} increase`}
-      title="Increase"
-      onclick={() => commit(value + step)}
-    >
-      ▶
-    </button>
+    <div class="row">
+      <button
+        type="button"
+        class="arrow"
+        aria-label={`${ariaLabel ?? 'Value'} decrease`}
+        title="Decrease"
+        onclick={() => commit(value - step)}
+      >
+        ◀
+      </button>
+      <button
+        type="button"
+        class="arrow"
+        aria-label={`${ariaLabel ?? 'Value'} increase`}
+        title="Increase"
+        onclick={() => commit(value + step)}
+      >
+        ▶
+      </button>
+    </div>
   {:else}
     <div class="stack">
       <button
@@ -126,6 +125,16 @@
     border-color: #3d5266;
     background: #1d2835;
     color: #dbe6f1;
+  }
+
+  .row {
+    display: flex;
+    gap: 1px;
+  }
+
+  .row .arrow {
+    flex: 1 1 0;
+    min-width: 18px;
   }
 
   .stack {
