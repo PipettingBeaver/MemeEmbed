@@ -1,12 +1,12 @@
 import {
   clampNumber,
+  computeCoverDest,
   computeCoverSource,
   destFor,
   isAxisAlignedQuad,
   pointsBBox,
   polygonCentroid,
   roundedRectOutlinePoints,
-  sourceCropFor,
 } from './geometry'
 import { buildAutoAlpha } from './mask'
 import { detectTrim, type PixelBuffer } from './trim'
@@ -428,8 +428,11 @@ export function processSlot(args: ProcessSlotArgs): HTMLCanvasElement {
 
   drawBackfill(ctx, destWidth, destHeight, slot, backfillImage)
 
-  const crop = sourceCropFor(slot.fit, prepared.width, prepared.height, destWidth, destHeight)
-  const dest = destFor(slot.fit, prepared.width, prepared.height, destWidth, destHeight)
+  const crop = { sx: 0, sy: 0, sw: prepared.width, sh: prepared.height }
+  const dest =
+    slot.fit === 'cover'
+      ? computeCoverDest(prepared.width, prepared.height, destWidth, destHeight)
+      : destFor(slot.fit, prepared.width, prepared.height, destWidth, destHeight)
 
   const zoom = clampNumber(slot.transform?.zoom ?? 1, 0.1, 10)
   const offsetX = slot.transform?.offsetX ?? 0

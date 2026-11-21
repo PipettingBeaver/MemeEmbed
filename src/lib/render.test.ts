@@ -589,6 +589,83 @@ describe('rounded bevel rendering', () => {
     expect(isRed(offset.getImageData(150, 100, 1, 1).data)).toBe(false)
   })
 
+  it('reveals the whole image when zooming out from cover instead of re-cropping it', () => {
+    const slot: Slot = {
+      id: 'reveal',
+      name: 'Reveal',
+      shape: 'rect',
+      rect: { x: 50, y: 50, w: 100, h: 100 },
+      fit: 'cover',
+      imageFile: 'slot.png',
+      transform: { zoom: 1, offsetX: 0, offsetY: 0 },
+      mask: {
+        mode: 'rect',
+        cornerRadius: 0,
+        inset: 0,
+        autoSource: 'auto',
+        tolerance: 36,
+      },
+      backfill: defaultBackfill(),
+      blend: {
+        ...defaultBlend(),
+        trimEdges: false,
+        tint: false,
+        feather: 0,
+        blur: 0,
+        downscale: 0,
+        brightness: 100,
+        saturation: 100,
+        opacity: 100,
+      },
+    }
+    const template: MemeTemplate = {
+      schemaVersion: 1,
+      id: 'reveal-test',
+      name: 'Reveal test',
+      width: 200,
+      height: 200,
+      baseImageFile: 'base.png',
+      slots: [slot],
+      text: { top: defaultText(), bottom: defaultText() },
+      createdAt: '',
+      updatedAt: '',
+    }
+
+    const bordered = createCanvas(80, 60)
+    const bctx = bordered.getContext('2d')
+    bctx.fillStyle = '#ff2d2d'
+    bctx.fillRect(0, 0, 80, 60)
+    bctx.fillStyle = '#ffe14d'
+    bctx.fillRect(0, 0, 3, 60)
+    bctx.fillRect(77, 0, 3, 60)
+
+    const base = makeQuadBase()
+    const render = (zoom: number) => {
+      const next = JSON.parse(JSON.stringify(template)) as MemeTemplate
+      next.slots[0].transform = { zoom, offsetX: 0, offsetY: 0 }
+      const canvas = createCanvas(200, 200)
+      const ctx = canvas.getContext('2d')
+      renderMeme(ctx as unknown as CanvasRenderingContext2D, {
+        template: next,
+        baseImage: base as unknown as HTMLImageElement,
+        slotImages: { reveal: bordered as unknown as HTMLImageElement },
+        backfillImages: {},
+        showOverlays: false,
+      })
+      return ctx
+    }
+
+    const isYellow = (data: Uint8ClampedArray) =>
+      data[0] > 180 && data[1] > 180 && data[2] < 140
+
+    const covered = render(1)
+    expect(isYellow(covered.getImageData(68, 100, 1, 1).data)).toBe(false)
+
+    const revealed = render(0.5)
+    expect(isYellow(revealed.getImageData(68, 100, 1, 1).data)).toBe(true)
+    expect(isYellow(revealed.getImageData(132, 100, 1, 1).data)).toBe(true)
+  })
+
   it('draws an outer glow outside the slot and not over the image', () => {
     const slot: Slot = {
       id: 'glow',

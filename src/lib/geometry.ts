@@ -275,6 +275,26 @@ export function computeCoverSource(
   }
 }
 
+export function computeCoverDest(
+  sourceWidth: number,
+  sourceHeight: number,
+  destWidth: number,
+  destHeight: number,
+): DestRect {
+  if (sourceWidth <= 0 || sourceHeight <= 0) {
+    return { dx: 0, dy: 0, dw: destWidth, dh: destHeight }
+  }
+  const scale = Math.max(destWidth / sourceWidth, destHeight / sourceHeight)
+  const dw = sourceWidth * scale
+  const dh = sourceHeight * scale
+  return {
+    dx: (destWidth - dw) / 2,
+    dy: (destHeight - dh) / 2,
+    dw,
+    dh,
+  }
+}
+
 export function computeContainDest(
   sourceWidth: number,
   sourceHeight: number,
