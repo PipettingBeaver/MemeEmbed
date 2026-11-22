@@ -6,7 +6,7 @@ tune color, edges, resolution, and backfill so the insert blends in. Add
 top/bottom text, save templates, and export a flattened PNG.
 
 Built with Svelte 5, TypeScript, Vite, and the Canvas 2D API. It runs entirely
-client-side — no server, no account, and no upload.
+client-side: no server, no account, and no upload.
 
 ## Features
 
@@ -59,7 +59,7 @@ npm test           # vitest (unit + headless canvas render tests)
 - **Export template** downloads a `.memeembed.json` bundle; **Import template**
   restores it on another browser or machine.
 - **Export PNG** downloads a flattened meme.
-- Clearing site data removes saved templates — export the ones you want to keep.
+- Clearing site data removes saved templates, export the ones you want to keep.
 
 ## Bundled presets
 
@@ -87,9 +87,9 @@ touching your saved copies.
 ## Bundled templates and ownership
 
 - **Coraline Dad Looking at Screen**
-- **Old Man Looking at Big TV Screen** — source:
+- **Old Man Looking at Big TV Screen**: source:
   <https://www.reddit.com/r/MemeTemplatesOfficial/comments/cbc3vs/old_man_looking_at_big_tv_screen_request_made_by/>
-- **Anime Girl at Computer Monitor** — source:
+- **Anime Girl at Computer Monitor**: source:
   <https://i.pinimg.com/564x/e5/66/56/e56656a35f232f71a76d7989bc960b20.jpg>
 
 I don't own any of the bundled meme images. Rights remain with their original

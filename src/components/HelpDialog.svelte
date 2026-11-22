@@ -138,7 +138,7 @@
             <li>Open <strong>Logs</strong> to see what the app is doing; errors and stack traces are captured there.</li>
             <li><strong>Run self-test</strong> checks browser storage, the template index, every template's assets, and the bundled presets.</li>
             <li><strong>Restore presets</strong> re-seeds the bundled templates without touching your saved copies.</li>
-            <li>Clearing this site's browser data removes your templates — export any you want to keep first.</li>
+            <li>Clearing this site's browser data removes your templates, export any you want to keep first.</li>
           </ul>
         </section>
       </div>
