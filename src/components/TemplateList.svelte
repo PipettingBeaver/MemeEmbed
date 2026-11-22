@@ -11,6 +11,7 @@
     onRestorePresets: () => void
     onImport: () => void
     onExport: () => void
+    onBatch: () => void
     onDelete: (id: string) => void
   }
 
@@ -24,6 +25,7 @@
     onRestorePresets,
     onImport,
     onExport,
+    onBatch,
     onDelete,
   }: Props = $props()
 
@@ -79,6 +81,9 @@
   </div>
 
   <div class="bottom">
+    <button class="wide" onclick={onBatch} disabled={busy || templates.length === 0}>
+      Batch generate…
+    </button>
     <button onclick={onRefresh} disabled={busy}>Refresh</button>
     <button
       onclick={onRestorePresets}
@@ -208,6 +213,10 @@
     gap: 6px;
     padding: 10px 12px;
     border-top: 1px solid #1d2632;
+  }
+
+  .bottom .wide {
+    grid-column: 1 / -1;
   }
 
   button {

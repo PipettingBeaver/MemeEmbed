@@ -6,6 +6,16 @@ Versions use [Semantic Versioning](https://semver.org/). Small UI, preset, and
 bug-fix changes are released as patch versions (`0.1.x`); larger feature sets
 get a minor bump. The version shown in the app header is the released version.
 
+## [0.2.0] - 2026-11-21
+
+### Added
+
+- Batch generator: choose one source image, select any number of saved
+  templates, and export a ZIP of PNGs. Shared fit, zoom, offset, trim, tint,
+  feather, and opacity settings are applied to every template; tint is sampled
+  from each template's own base image. An option applies the image to the first
+  slot or every slot.
+
 ## [0.1.3] - 2026-11-21
 
 ### Added

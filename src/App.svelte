@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte'
+  import BatchDialog from './components/BatchDialog.svelte'
   import GuidePanel from './components/GuidePanel.svelte'
   import HelpDialog from './components/HelpDialog.svelte'
   import Inspector from './components/Inspector.svelte'
@@ -68,6 +69,7 @@
   let busy = $state(false)
   let mode = $state<ToolMode>('select')
   let showHelp = $state(false)
+  let showBatch = $state(false)
   let showLogs = $state(false)
   let selfTest = $state<SelfTestItem[]>([])
   let copyDialogOpen = $state(false)
@@ -1125,6 +1127,7 @@
       onRestorePresets={restorePresets}
       onImport={importTemplate}
       onExport={exportTemplate}
+      onBatch={() => (showBatch = true)}
       onDelete={deleteTemplate}
     />
 
@@ -1215,6 +1218,7 @@
   </div>
 
   <HelpDialog open={showHelp} onClose={() => (showHelp = false)} />
+  <BatchDialog open={showBatch} {templates} onClose={() => (showBatch = false)} />
   <LogPanel
     open={showLogs}
     {selfTest}
