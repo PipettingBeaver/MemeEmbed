@@ -6,6 +6,13 @@ Versions use [Semantic Versioning](https://semver.org/). Small UI, preset, and
 bug-fix changes are released as patch versions (`0.1.x`); larger feature sets
 get a minor bump. The version shown in the app header is the released version.
 
+## [0.2.3] - 2026-11-22
+
+### Changed
+
+- Anime Girl at Computer Monitor monitor quad updated to
+  P1 31,64 · P2 236,63 · P3 236,215 · P4 31,226.
+
 ## [0.2.2] - 2026-11-22
 
 ### Added
