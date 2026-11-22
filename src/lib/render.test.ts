@@ -681,7 +681,13 @@ describe('rounded bevel rendering', () => {
         backfillImages: {},
         showOverlays: true,
         selectedSlotId: selected,
-        guides: { outlines, thirds: false, center: false, measurements: false },
+        guides: {
+          outlines,
+          thirds: false,
+          center: false,
+          measurements: false,
+          handles: true,
+        },
       })
       const data = ctx.getImageData(0, 0, 200, 200).data
       let cyan = 0
@@ -694,6 +700,35 @@ describe('rounded bevel rendering', () => {
     expect(render(false, null)).toBe(0)
     expect(render(false, 'quad')).toBeGreaterThan(0)
     expect(render(true, null)).toBeGreaterThan(0)
+  })
+
+  it('can hide the selected vertex handles while keeping the outline', () => {
+    const template = makeQuadTemplate()
+    const base = makeQuadBase()
+    const embedded = makeRedImage()
+
+    const render = (handles: boolean) => {
+      const canvas = createCanvas(200, 200)
+      const ctx = canvas.getContext('2d')
+      renderMeme(ctx as unknown as CanvasRenderingContext2D, {
+        template,
+        baseImage: base as unknown as HTMLImageElement,
+        slotImages: { quad: embedded as unknown as HTMLImageElement },
+        backfillImages: {},
+        showOverlays: true,
+        selectedSlotId: 'quad',
+        guides: { outlines: false, thirds: false, center: false, measurements: false, handles },
+      })
+      const data = ctx.getImageData(0, 0, 200, 200).data
+      let cyan = 0
+      for (let i = 0; i < data.length; i += 4) {
+        if (data[i] < 160 && data[i + 1] > 150 && data[i + 2] > 220) cyan += 1
+      }
+      return cyan
+    }
+
+    expect(render(true)).toBeGreaterThan(render(false))
+    expect(render(false)).toBeGreaterThan(0)
   })
 
   it('draws an outer glow outside the slot and not over the image', () => {

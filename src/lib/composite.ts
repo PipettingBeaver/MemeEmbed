@@ -51,6 +51,7 @@ const DEFAULT_GUIDES: GuideSettings = {
   thirds: false,
   center: false,
   measurements: false,
+  handles: true,
 }
 
 export interface ProcessSlotArgs {
@@ -1000,7 +1001,7 @@ function drawOverlays(
       )
     }
 
-    if (selected) {
+    if (selected && guides.handles) {
       if (slot.shape === 'quad' && slot.points && slot.points.length === 4) {
         drawQuadHandles(ctx, slot.points, unit)
       } else {

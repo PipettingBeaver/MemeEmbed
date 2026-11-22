@@ -25,6 +25,14 @@
   <label class="check">
     <input
       type="checkbox"
+      checked={guides.handles}
+      onchange={(event) => onPatch({ handles: event.currentTarget.checked })}
+    />
+    <span>Vertex handles and P1–P4 labels</span>
+  </label>
+  <label class="check">
+    <input
+      type="checkbox"
       checked={guides.thirds}
       onchange={(event) => onPatch({ thirds: event.currentTarget.checked })}
     />

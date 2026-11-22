@@ -55,6 +55,7 @@ export interface GuideSettings {
   thirds: boolean
   center: boolean
   measurements: boolean
+  handles: boolean
 }
 
 export interface ImageTransform {

@@ -85,6 +85,7 @@
       thirds: false,
       center: false,
       measurements: false,
+      handles: true,
     }
     if (typeof localStorage === 'undefined') return fallback
     try {

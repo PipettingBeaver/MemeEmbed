@@ -6,6 +6,12 @@ Versions use [Semantic Versioning](https://semver.org/). Small UI, preset, and
 bug-fix changes are released as patch versions (`0.1.x`); larger feature sets
 get a minor bump. The version shown in the app header is the released version.
 
+## [0.2.1] - 2026-11-22
+
+### Added
+
+- Guidelines toggle for vertex handles and P1–P4 labels (visible by default).
+
 ## [0.2.0] - 2026-11-21
 
 ### Added
