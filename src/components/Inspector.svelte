@@ -81,6 +81,37 @@
     const current = slot.transform ?? defaultTransform()
     onPatch(slot.id, { transform: { ...current, ...patch } })
   }
+
+  let copied = $state(false)
+
+  async function copyPoints(): Promise<void> {
+    if (!slot?.points) return
+    const text = slot.points
+      .map((point, index) => `P${index + 1}: ${Math.round(point.x)}, ${Math.round(point.y)}`)
+      .join('\n')
+    const markCopied = (): void => {
+      copied = true
+      setTimeout(() => {
+        copied = false
+      }, 1500)
+    }
+    try {
+      await navigator.clipboard.writeText(text)
+      markCopied()
+    } catch {
+      const area = document.createElement('textarea')
+      area.value = text
+      area.style.position = 'fixed'
+      area.style.opacity = '0'
+      document.body.appendChild(area)
+      area.select()
+      try {
+        if (document.execCommand('copy')) markCopied()
+      } finally {
+        area.remove()
+      }
+    }
+  }
 </script>
 
 <section class="panel-section">
@@ -118,6 +149,9 @@
       <div class="row-between">
         <span class="field-label">Geometry</span>
         <span class="badge">Quad · 4 points</span>
+        <button class="link" onclick={copyPoints} title="Copy P1–P4 coordinates">
+          {copied ? 'Copied' : 'Copy values'}
+        </button>
         <button class="link" onclick={() => onResetGeometry(slot.id)}>Make rectangle</button>
       </div>
       <div class="corner-grid">
