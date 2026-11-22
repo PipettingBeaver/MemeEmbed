@@ -285,9 +285,32 @@
         />
       </label>
     </div>
+    <label class="slider">
+      <span>Offset X <small>{Math.round(slot.transform?.offsetX ?? 0)}px</small></span>
+      <input
+        type="range"
+        min={-Math.max(1, Math.round(slot.rect.w))}
+        max={Math.max(1, Math.round(slot.rect.w))}
+        step="1"
+        value={Math.round(slot.transform?.offsetX ?? 0)}
+        oninput={(event) => setTransform({ offsetX: num(event) })}
+      />
+    </label>
+    <label class="slider">
+      <span>Offset Y <small>{Math.round(slot.transform?.offsetY ?? 0)}px</small></span>
+      <input
+        type="range"
+        min={-Math.max(1, Math.round(slot.rect.h))}
+        max={Math.max(1, Math.round(slot.rect.h))}
+        step="1"
+        value={Math.round(slot.transform?.offsetY ?? 0)}
+        oninput={(event) => setTransform({ offsetY: num(event) })}
+      />
+    </label>
     <p class="hint">
       Zoom and pan the embedded image inside the slot after the Fit mode is applied. Positive
-      offsets move the image right and down; the slot mask still clips it.
+      offsets move the image right and down; the slider and the 1 px nudges stay in sync, and the
+      slot mask still clips the result.
     </p>
 
     <div class="divider"></div>

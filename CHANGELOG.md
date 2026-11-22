@@ -6,6 +6,13 @@ Versions use [Semantic Versioning](https://semver.org/). Small UI, preset, and
 bug-fix changes are released as patch versions (`0.1.x`); larger feature sets
 get a minor bump. The version shown in the app header is the released version.
 
+## [0.2.4] - 2026-11-22
+
+### Added
+
+- Offset X and Offset Y sliders alongside the 1 px stepper nudges in Image
+  framing. Both controls edit the same transform values.
+
 ## [0.2.3] - 2026-11-22
 
 ### Changed
